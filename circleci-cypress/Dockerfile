@@ -11,7 +11,9 @@ RUN apt-get update && \
     libnss3 \
     libxss1 \
     libasound2 \
-    xvfb
+    xvfb \
+    vnc4server \
+    metacity
 
 RUN node --version
 RUN echo "force new chrome here"
@@ -39,12 +41,7 @@ RUN google-chrome --version
 RUN zip --version
 RUN git --version
 
-# a few environment variables to make NPM installs easier
-# good colors for most applications
-ENV TERM xterm
-# avoid million NPM install messages
-ENV npm_config_loglevel warn
-# allow installing when the main user is root
-ENV npm_config_unsafe_perm true
-
 USER circleci
+
+# TODO: run vncpasswd
+# TODO: run vncserver
