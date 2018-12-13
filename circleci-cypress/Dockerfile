@@ -26,9 +26,10 @@ RUN \
   apt-get install -y dbus-x11 google-chrome-stable && \
   rm -rf /var/lib/apt/lists/*
 
+# We commented that out and hope it will work anyways 🤞
 # "fake" dbus address to prevent errors
 # https://github.com/SeleniumHQ/docker-selenium/issues/87
-ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
+# ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 # Add zip utility - it comes in very handy
 RUN apt-get update && apt-get install -y zip
@@ -42,6 +43,3 @@ RUN zip --version
 RUN git --version
 
 USER circleci
-
-# TODO: run vncpasswd
-# TODO: run vncserver
