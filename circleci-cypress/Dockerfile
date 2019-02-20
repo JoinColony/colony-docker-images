@@ -62,8 +62,10 @@ USER circleci
 
 # Install Linuxbrew
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-# Add Linuxbrew PATH to the current .profile
+# Configure Linuxbrew in the current .profile
 RUN echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> ~/.profile
+# Add Linuxbrew to the current PATH
+RUN echo eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # Opt-out of Linuxbrew analytics
 RUN brew analytics off
 
