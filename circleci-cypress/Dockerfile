@@ -66,6 +66,9 @@ RUN \
   test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile && \
   echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
 
+# Opt-out of Linuxbrew analytics
+RUN brew analytics off
+
 # Install mkcert using Linuxbrew
 RUN brew install mkcert
 # Generate local CA certificates
