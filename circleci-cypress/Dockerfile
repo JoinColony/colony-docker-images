@@ -7,6 +7,9 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE 1
 # The Linuxbrew install script needs the USER value set in the env
 # It will not use actual logged in one
 ENV USER circleci
+# Locales
+ENV LC_ACC en_US.UTF-8
+ENV LC_CTYPE en_US.UTF-8
 
 # Update the apt cache
 RUN apt-get update
@@ -45,6 +48,9 @@ RUN \
 
 # Add zip utility - it comes in very handy
 RUN apt-get install -y zip
+
+# Reconfigure localse
+RUN dpkg-reconfigure locales
 
 # versions of local tools
 RUN node -v
