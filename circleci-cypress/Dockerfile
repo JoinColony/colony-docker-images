@@ -11,6 +11,7 @@ RUN apt-get install -y \
     libnotify-dev \
     libgconf-2-4 \
     libnss3 \
+    libnss3-tools \
     libxss1 \
     libasound2 \
     xvfb \
