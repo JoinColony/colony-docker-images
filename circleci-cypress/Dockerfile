@@ -7,16 +7,19 @@ RUN apt-get update
 
 # install cypress dependencies
 RUN apt-get install -y \
-    libgtk2.0-0 \
-    libnotify-dev \
-    libgconf-2-4 \
-    libnss3 \
-    libnss3-tools \
-    libxss1 \
-    libasound2 \
-    xvfb \
-    vnc4server \
-    metacity
+  libgtk2.0-0 \
+  libnotify-dev \
+  libgconf-2-4 \
+  libnss3 \
+  libnss3-tools \
+  libxss1 \
+  libasound2 \
+  xvfb \
+  vnc4server \
+  metacity \
+  build-essential \
+  curl \
+  file
 
 RUN node --version
 RUN echo "force new chrome here"
