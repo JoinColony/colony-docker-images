@@ -4,6 +4,9 @@ USER root
 
 # Supress the Chrome package key warning
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE 1
+# The Linuxbrew install script needs the USER value set in the env
+# It will not use actual logged in one
+ENV USER circleci
 
 # Update the apt cache
 RUN apt-get update
@@ -55,6 +58,7 @@ USER circleci
 
 # Install Linuxbrew
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+
 # Add Linuxbrew to the current .profile
 RUN \
   test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv) && \
