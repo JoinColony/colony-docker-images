@@ -7,6 +7,11 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE 1
 # The Linuxbrew install script needs the USER value set in the env
 # It will not use actual logged in one
 ENV USER circleci
+# Manually set Linuxbrew ENV variables
+ENV HOMEBREW_PREFIX "/home/linuxbrew/.linuxbrew"
+ENV HOMEBREW_CELLAR "/home/linuxbrew/.linuxbrew/Cellar"
+ENV HOMEBREW_REPOSITORY "/home/linuxbrew/.linuxbrew/Homebrew"
+ENV PATH "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
 # Update the apt cache
 RUN apt-get update
@@ -64,8 +69,6 @@ USER circleci
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 # Configure Linuxbrew in the current .profile
 RUN echo "eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> ~/.profile
-# Add Linuxbrew to the current PATH
-RUN echo eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # Opt-out of Linuxbrew analytics
 RUN brew analytics off
 
