@@ -65,6 +65,13 @@ RUN git --version
 
 USER circleci
 
+# We need to create the cache folder initially (as the circleci user),
+# otherwise the Linuxbrew install script will create a subfolder using
+# sudo (.cache/Homebrew), which will create `.cache` recursively, with
+# root:root as an owner, making it impossible for use to use it from the
+# circle runner
+RUN mkdir ~/.cache
+
 # Install Linuxbrew
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 # Configure Linuxbrew in the current .profile
