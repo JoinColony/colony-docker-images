@@ -29,4 +29,6 @@ RUN apt-get update \
 
 COPY ./run /root/run
 
+STOPSIGNAL SIGKILL
+
 ENTRYPOINT ["/root/run"]
