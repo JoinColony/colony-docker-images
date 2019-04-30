@@ -2,12 +2,10 @@
 
 set -e
 
-ARGS=${*:-daemon}
-
-jsipfs init || true # Skip if the repo exists already
+jsipfs init 2> /dev/null || echo "Repo already initialized. Moving on..."
 
 if [ -n "$IPFS_API_HOST" ]; then
   sed -i "s/127.0.0.1/$IPFS_API_HOST/g" $IPFS_PATH/config
 fi
 
-jsipfs $ARGS
+exec jsipfs "$@"
