@@ -1,0 +1,13 @@
+{
+  "name": "star-signal-ws-rendezvous",
+  "version": "1.0.0",
+  "description": "Rendezvous star signal server via websockets",
+  "scripts": {
+    "start": "rendezvous"
+  },
+  "author": "Christian Maniewski",
+  "license": "MIT",
+  "dependencies": {
+    "libp2p-websocket-star-rendezvous": "^0.3.0"
+  }
+}
