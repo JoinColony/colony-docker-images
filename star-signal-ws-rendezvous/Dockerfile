@@ -1,6 +1,6 @@
-MAINTAINER Christian Maniewski <chris@colony.io>
-
 FROM node:10.16-slim AS builder
+
+MAINTAINER Christian Maniewski <chris@colony.io>
 
 RUN mkdir /rendezvous
 
