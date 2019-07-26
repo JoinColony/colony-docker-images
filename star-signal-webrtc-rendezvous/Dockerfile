@@ -11,6 +11,6 @@ RUN apt-get update && apt-get install -y build-essential git python && \
     cd /rendezvous && \
     npm install
 
-EXPOSE 13579
+EXPOSE 9090
 
 ENTRYPOINT /rendezvous/node_modules/.bin/star-signal
