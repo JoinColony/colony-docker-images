@@ -1,0 +1,14 @@
+{
+  "name": "star-signal-webrtc-rendezvous",
+  "version": "1.0.0",
+  "description": "Rendezvous star signal server via webrtc",
+  "scripts": {
+    "start": "star-signal"
+  },
+  "author": "Christian Maniewski",
+  "license": "MIT",
+  "dependencies": {
+    "libp2p-webrtc-star": "^0.16.1",
+    "wrtc": "^0.4.1"
+  }
+}
