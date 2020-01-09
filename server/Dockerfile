@@ -3,13 +3,15 @@ FROM node:10.16
 # @NOTE Declare the commit hash build variable, so that it gets picked up by the conditional
 ARG COMMIT_HASH
 ARG JWT_SECRET
+ARG INFURA_ID
 
-RUN if [ -z "$JWT_SECRET" ]; then echo "Secret build argument NOT SET. Stopping..."; exit 1; else : ; fi
+RUN if [ -z "$JWT_SECRET" ]; then echo "JWT_SECRET build argument was NOT SET. Stopping..."; exit 1; else : ; fi
+RUN if [ -z "$INFURA_ID" ]; then echo "INFURA_ID build argument was NOT SET. Stopping..."; exit 1; else : ; fi
 
 # Build arguments that have default values
-ARG ETH_NETWORK=http://localhost:8545
 ARG NETWORK_CONTRACT_ADDRESS=0xde3EDaBA7c15F845F59D1058eCD70Ed33FfdB2b9
 ARG APOLLO_PORT=3000
+ARG NETWORK=goerli
 
 # Update the apt cache
 RUN apt-get clean
@@ -44,31 +46,28 @@ RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 
 # Setup the environment variables
 RUN echo "DB_NAME=colonyCentralizedMetadata\n" \
-  "DB_URL=mongodb://0.0.0.0:27017\n" \
+  "DB_URL=mongodb://127.0.0.1:27017\n" \
   "DISABLE_EXPIRY_CHECK=false\n" \
+  "DISABLE_AUTH_CHECK=false\n" \
   "JWT_SECRET=$JWT_SECRET\n" \
-  "ETH_NETWORK=$ETH_NETWORK\n" \
+  "NETWORK=$NETWORK\n" \
   "NETWORK_CONTRACT_ADDRESS=$NETWORK_CONTRACT_ADDRESS\n" \
+  "INFURA_ID=$INFURA_ID\n" \
   "APOLLO_PORT=$APOLLO_PORT\n" > .env
 
 # Setup the server modules
 RUN npm i
 
+# Build the server files
+RUN npm run build
+
 # Create mongo's data and logs folders
 RUN mkdir mongo-data logs
-
-# Start the mongo server
-RUN npm run db:start:prod && npm run db:setup && npm run prod &
-# Debug
-# RUN cat logs/mongod.log
-
-# Setup the mongo database collections
-# RUN npm run db:setup
 
 # Expose the Apollo Server's port
 EXPOSE 3000
 
-# Start the Express Server
-# RUN npm run prod
+# Start the Express Server, The MongoDB Server and setup the Database schema
+CMD ["npm", "run", "prod"]
 
 # READY TO GO !
