@@ -12,6 +12,8 @@ RUN if [ -z "$INFURA_ID" ]; then echo "INFURA_ID build argument was NOT SET. Sto
 ARG NETWORK_CONTRACT_ADDRESS=0xde3EDaBA7c15F845F59D1058eCD70Ed33FfdB2b9
 ARG APOLLO_PORT=3000
 ARG NETWORK=goerli
+ARG DISABLE_EXPIRY_CHECK=false
+ARG DISABLE_AUTH_CHECK=false
 
 # Update the apt cache
 RUN apt-get clean
@@ -47,8 +49,8 @@ RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 # Setup the environment variables
 RUN echo "DB_NAME=colonyCentralizedMetadata\n" \
   "DB_URL=mongodb://127.0.0.1:27017\n" \
-  "DISABLE_EXPIRY_CHECK=false\n" \
-  "DISABLE_AUTH_CHECK=false\n" \
+  "DISABLE_EXPIRY_CHECK=$DISABLE_EXPIRY_CHECK\n" \
+  "DISABLE_AUTH_CHECK=$DISABLE_AUTH_CHECK\n" \
   "JWT_SECRET=$JWT_SECRET\n" \
   "NETWORK=$NETWORK\n" \
   "NETWORK_CONTRACT_ADDRESS=$NETWORK_CONTRACT_ADDRESS\n" \
