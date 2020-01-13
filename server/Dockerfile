@@ -9,7 +9,7 @@ RUN if [ -z "$JWT_SECRET" ]; then echo "JWT_SECRET build argument was NOT SET. S
 RUN if [ -z "$INFURA_ID" ]; then echo "INFURA_ID build argument was NOT SET. Stopping..."; exit 1; else : ; fi
 
 # Build arguments that have default values
-ARG NETWORK_CONTRACT_ADDRESS=0xde3EDaBA7c15F845F59D1058eCD70Ed33FfdB2b9
+ARG NETWORK_CONTRACT_ADDRESS=0x79073fc2117dD054FCEdaCad1E7018C9CbE3ec0B
 ARG APOLLO_PORT=3000
 ARG NETWORK=goerli
 ARG DISABLE_EXPIRY_CHECK=false
