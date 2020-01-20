@@ -45,7 +45,7 @@ The server production docker image builds the production version of the bundle, 
 
 #### Build Args
 
-This docker file allows you to pass in build time arguments to change the environment the server bundle is being built with. There are tree build arguments that are **required**: `INFURA_ID`, `JWT_SECRET` and your github token passed into `GH_PAT`
+This docker file allows you to pass in build time arguments to change the environment the server bundle is being built with. There are three build arguments that are **required**: `INFURA_ID`, `JWT_SECRET` and your github token passed into `GH_PAT`
 
 Build args:
 - `GH_PAT`: the GitHub Personal Access Token **required** to authenticate and pull information from our private repo _(Note: you **have to** supply this yourself, otherwise it won't work)_.
