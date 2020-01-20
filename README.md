@@ -45,9 +45,10 @@ The server production docker image builds the production version of the bundle, 
 
 #### Build Args
 
-This docker file allows you to pass in build time arguments to change the environment the server bundle is being built with. There are two build arguments that are **required**: `INFURA_ID` and `JWT_SECRET`
+This docker file allows you to pass in build time arguments to change the environment the server bundle is being built with. There are tree build arguments that are **required**: `INFURA_ID`, `JWT_SECRET` and your github token passed into `GH_PAT`
 
 Build args:
+- `GH_PAT`: the GitHub Personal Access Token **required** to authenticate and pull information from our private repo _(Note: you **have to** supply this yourself, otherwise it won't work)_.
 - `INFURA_ID`: The infura project id we are using as a provider. This is **required** as we don't provide a default for it in the `Dockerfile`. See the _Infura Dashboard_ for the correct project id
 - `JWT_SECRET`: The secret string to use for authentication. [More on JWT here](https://stackoverflow.com/a/28503265)
 - `NETWORK`: Network value to be passed to the environment, defaults to `goerli`
@@ -58,7 +59,7 @@ Build args:
 
 Usage example:
 ```bash
-docker build --build-arg INFURA_ID='XXX' --build-arg JWT_SERCRET='this-should-be-really-really-secret' --no-cache .
+docker build --build-arg GH_PAT='XXX' --build-arg INFURA_ID='XXX' --build-arg JWT_SERCRET='this-should-be-really-really-secret' --no-cache .
 ```
 
 #### Building from a different branch / commit hash
