@@ -20,6 +20,7 @@ ARG APOLLO_PORT=3000
 ARG NETWORK=goerli
 ARG DISABLE_EXPIRY_CHECK=false
 ARG DISABLE_AUTH_CHECK=false
+ARG ETHPLORER_API_KEY=freekey
 
 # Update the apt cache
 RUN apt-get clean
@@ -61,7 +62,8 @@ RUN echo "DB_NAME=colonyCentralizedMetadata\n" \
   "NETWORK=$NETWORK\n" \
   "NETWORK_CONTRACT_ADDRESS=$NETWORK_CONTRACT_ADDRESS\n" \
   "INFURA_ID=$INFURA_ID\n" \
-  "APOLLO_PORT=$APOLLO_PORT\n" > .env
+  "APOLLO_PORT=$APOLLO_PORT\n" \
+  "ETHPLORER_API_KEY=$ETHPLORER_API_KEY\n" > .env
 
 # Setup the server modules
 RUN npm i

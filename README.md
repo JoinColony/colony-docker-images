@@ -56,7 +56,7 @@ Build args:
 - `APOLLO_PORT`: The port the server will be accessible on, defaults to `3000`
 - `DISABLE_EXPIRY_CHECK`: Disable the expiry logic check. Defaults to `false`. **Do not** set to `true` while using it in production.
 - `DISABLE_AUTH_CHECK`: Disable the authentication logic check. Defaults to `false`. **Do not** set to `true` while using it in production.
-
+- `ETHPLORER_API_KEY`: Pass in the API for [Ethplorer](https://ethplorer.io/). Defaults to `freekey`, which is [pretty limited](https://github.com/EverexIO/Ethplorer/wiki/Ethplorer-API#freekey-limits).
 Usage example:
 ```bash
 docker build --build-arg GH_PAT='XXX' --build-arg INFURA_ID='XXX' --build-arg JWT_SERCRET='this-should-be-really-really-secret' --no-cache .
