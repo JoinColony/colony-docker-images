@@ -7,7 +7,7 @@ Colony docker images for hub auto-builds
 ### circleci-cypress
 An image based on circleci/node which also contains the cypress testing dependencies
 
-### aapp
+### app
 
 The App production docker image builds the production version of the bundle, moves it to separate folder, and serves it via a simple `nginx` server on port `80`
 
