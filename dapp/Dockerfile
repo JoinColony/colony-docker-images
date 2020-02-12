@@ -1,24 +1,7 @@
 FROM node:10.16.3
 
-# @NOTE This Dockerfile pulls in a private repository
-# In order to accomplish this, it makes use of a GH Personal Access Token:
-# https://github.com/settings/tokens (Make sure you have the `repo` scope, ...and only that)
-#
-# @NOTE This is required to be set at build time, otherwise calls to infura might fail
-# Also, due to security considerations, we're not storing it here
-#
-# Eg: docker build --build-arg INFURA_ID='XXX' .
-ARG INFURA_ID
 # @NOTE Declare the commit hash build variable, so that it gets picked up by the conditional
 ARG COMMIT_HASH
-
-# Make the dapp's ENV values to have the option to be set at build time
-# But fall back to a default
-ARG LOADER=network
-ARG NETWORK=goerli
-ARG VERBOSE=false
-ARG COLONY_NETWORK_ENS_NAME=joincolony.eth
-ARG SERVER_ENDPOINT=http://127.0.0.1:3000
 
 # @FIX Allow the nginx service to start at build time, so that the installation will work
 # See: https://askubuntu.com/questions/365911/why-the-services-do-not-start-at-installation
@@ -50,14 +33,6 @@ RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 # Install node_modules
 RUN yarn
 
-# Setup the repo's ENV file
-RUN echo "LOADER=$LOADER\n" \
-        "INFURA_ID=$INFURA_ID\n" \
-        "NETWORK=$NETWORK\n" \
-        "VERBOSE=$VERBOSE\n" \
-        "COLONY_NETWORK_ENS_NAME=$COLONY_NETWORK_ENS_NAME\n" \
-        "SERVER_ENDPOINT=$SERVER_ENDPOINT\n" > .env
-
 # Build the production bundle
 RUN yarn webpack:build:prod
 
@@ -83,8 +58,20 @@ RUN echo "server {\n" \
 # Expose the HTTP port
 EXPOSE 80
 
+# @NOTE Hack!
+# We replace the environment variables in the built bundle with the ones declared in the kubernetes config
+# This is necessary since we aren't in a actual node process, they're just files served by nginx
+# Doing it like this allows us to use the same image for different deployments
+RUN echo "sed -i \"s|e.env.SERVER_ENDPOINT|\\\"\$SERVER_ENDPOINT\\\"|g\" *.js" \
+        "&& sed -i \"s/e.env.LOADER/\\\"\$LOADER\\\"/g\" *.js" \
+        "&& sed -i \"s/e.env.NETWORK/\\\"\$NETWORK\\\"/g\" *.js" \
+        "&& sed -i \"s/e.env.VERBOSE/\\\"\$VERBOSE\\\"/g\" *.js" \
+        "&& sed -i \"s/e.env.COLONY_NETWORK_ENS_NAME/\\\"\$COLONY_NETWORK_ENS_NAME\\\"/g\" *.js" \
+        "&& sed -i \"s/e.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
+        " && nginx -g 'daemon off;'" > ./run.sh
+RUN chmod +x ./run.sh
+
 # @NOTE Run the actual command, rather then the service
 # so that the docker container won't exit
-CMD ["nginx", "-g", "daemon off;"]
-
+CMD ./run.sh
 # READY TO GO !
