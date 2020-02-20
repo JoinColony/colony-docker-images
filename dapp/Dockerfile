@@ -1,11 +1,18 @@
 FROM node:10.16.3
 
+# @NOTE This Dockerfile pulls in a private repository
+# In order to accomplish this, it makes use of a GH Personal Access Token:
+# https://github.com/settings/tokens (Make sure you have the `repo` scope, ...and only that)
+ARG GH_PAT
+
 # @NOTE Declare the commit hash build variable, so that it gets picked up by the conditional
 ARG COMMIT_HASH
 
 # @FIX Allow the nginx service to start at build time, so that the installation will work
 # See: https://askubuntu.com/questions/365911/why-the-services-do-not-start-at-installation
 RUN sed -i "s|exit 101|exit 0|g" /usr/sbin/policy-rc.d
+
+RUN if [ -z "$GH_PAT" ]; then echo "GH_PAT build argument was NOT SET. Stopping..."; exit 1; else : ; fi
 
 # Update the apt cache
 RUN apt-get clean
@@ -26,7 +33,7 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN locale-gen
 
 # Clone the repo
-RUN git clone "https://github.com/JoinColony/colonyDapp.git"
+RUN git clone "https://$GH_PAT@github.com/JoinColony/colonyDapp.git"
 WORKDIR /colonyDapp
 RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 
