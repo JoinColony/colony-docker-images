@@ -4,6 +4,7 @@ FROM node:10.16.3
 # In order to accomplish this, it makes use of a GH Personal Access Token:
 # https://github.com/settings/tokens (Make sure you have the `repo` scope, ...and only that)
 ARG GH_PAT
+ARG DEV
 
 # @NOTE Declare the commit hash build variable, so that it gets picked up by the conditional
 ARG COMMIT_HASH
@@ -40,8 +41,9 @@ RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 # Install node_modules
 RUN yarn
 
-# Build the production bundle
-RUN yarn webpack:build:prod
+# If the DEV build arg was set, then build the bundle in development mode
+# Otherwise, build the normal production bundle
+RUN if [ -z "$DEV" ]; then yarn webpack:build:prod; else yarn webpack:build; fi
 
 # Copy the production bundle
 RUN mkdir ../colonyDappProd
@@ -69,12 +71,13 @@ EXPOSE 80
 # We replace the environment variables in the built bundle with the ones declared in the kubernetes config
 # This is necessary since we aren't in a actual node process, they're just files served by nginx
 # Doing it like this allows us to use the same image for different deployments
-RUN echo "sed -i \"s|e.env.SERVER_ENDPOINT|\\\"\$SERVER_ENDPOINT\\\"|g\" *.js" \
-        "&& sed -i \"s/e.env.LOADER/\\\"\$LOADER\\\"/g\" *.js" \
-        "&& sed -i \"s/e.env.NETWORK/\\\"\$NETWORK\\\"/g\" *.js" \
-        "&& sed -i \"s/e.env.VERBOSE/\\\"\$VERBOSE\\\"/g\" *.js" \
-        "&& sed -i \"s/e.env.COLONY_NETWORK_ENS_NAME/\\\"\$COLONY_NETWORK_ENS_NAME\\\"/g\" *.js" \
-        "&& sed -i \"s/e.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
+RUN if [ -z "$DEV" ]; then export PROCESS_VAR='e'; else export PROCESS_VAR='process'; fi && \
+        echo "sed -i \"s|${PROCESS_VAR}.env.SERVER_ENDPOINT|\\\"\$SERVER_ENDPOINT\\\"|g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.LOADER/\\\"\$LOADER\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.NETWORK/\\\"\$NETWORK\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.VERBOSE/\\\"\$VERBOSE\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.COLONY_NETWORK_ENS_NAME/\\\"\$COLONY_NETWORK_ENS_NAME\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
         " && nginx -g 'daemon off;'" > ./run.sh
 RUN chmod +x ./run.sh
 
