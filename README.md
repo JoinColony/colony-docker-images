@@ -13,6 +13,15 @@ The App production docker image builds the production version of the bundle, mov
 
 The `Dockerfile` just needs to be built, and run. The `nginx` service `CMD` will keep the container alive.
 
+#### Build Args
+
+This docker file allows you to pass in build time arguments to change the environment the server bundle is being built with. There is only one build arguments that is **required**: your github token passed into `GH_PAT`
+
+Build args:
+- `GH_PAT`: the GitHub Personal Access Token **required** to authenticate and pull information from our private repo _(Note: you **have to** supply this yourself, otherwise it won't work)_.
+- `COMMIT_HASH`: optional argument that checks out the repo at a specific commit hash or branch
+- `DEV`: optional, can have any value, and, if set _(to any value)_, will build the bundle in un-minified dev mode
+
 While the app itself uses ENV variables, they are expected to be set in the envrinment that this image will run in. For the required ones, check the [app repository](https://github.com/JoinColony/colonyDapp).
 
 Usage example:
@@ -39,6 +48,7 @@ This docker file allows you to pass in build time arguments to change the enviro
 
 Build args:
 - `GH_PAT`: the GitHub Personal Access Token **required** to authenticate and pull information from our private repo _(Note: you **have to** supply this yourself, otherwise it won't work)_.
+- `COMMIT_HASH`: optional argument that checks out the repo at a specific commit hash or branch
 
 While there are _other_ ENV variables that are needed for the server itself to function properly, they are expected to be set in the envrinment that this image will run in. For the required ones, check the [server repository](https://github.com/JoinColony/colonyServer).
 
