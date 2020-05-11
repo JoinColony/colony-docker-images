@@ -71,7 +71,7 @@ EXPOSE 80
 # We replace the environment variables in the built bundle with the ones declared in the kubernetes config
 # This is necessary since we aren't in a actual node process, they're just files served by nginx
 # Doing it like this allows us to use the same image for different deployments
-RUN if [ -z "$DEV" ]; then export PROCESS_VAR='e'; else export PROCESS_VAR='process'; fi && \
+RUN if [ -z "$DEV" ]; then export PROCESS_VAR='[a-z]'; else export PROCESS_VAR='process'; fi && \
         echo "sed -i \"s|${PROCESS_VAR}.env.SERVER_ENDPOINT|\\\"\$SERVER_ENDPOINT\\\"|g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.LOADER/\\\"\$LOADER\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.NETWORK/\\\"\$NETWORK\\\"/g\" *.js" \
