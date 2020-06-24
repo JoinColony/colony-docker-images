@@ -1,4 +1,4 @@
-FROM node:10.16.3
+FROM node:12.16.3
 
 # @NOTE This Dockerfile pulls in a private repository
 # In order to accomplish this, it makes use of a GH Personal Access Token:
@@ -39,11 +39,11 @@ WORKDIR /colonyDapp
 RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 
 # Install node_modules
-RUN yarn
+RUN npm ci
 
 # If the DEV build arg was set, then build the bundle in development mode
 # Otherwise, build the normal production bundle
-RUN if [ -z "$DEV" ]; then yarn webpack:build:prod; else yarn webpack:build; fi
+RUN if [ -z "$DEV" ]; then npm run webpack:build:prod; else npm run webpack:build; fi
 
 # Copy the production bundle
 RUN mkdir ../colonyDappProd
