@@ -1,4 +1,4 @@
-FROM node:10.16.3
+FROM node:12.16.3
 
 # @NOTE This Dockerfile pulls in a private repository
 # In order to accomplish this, it makes use of a GH Personal Access Token:
