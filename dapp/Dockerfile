@@ -78,12 +78,12 @@ RUN if [ -z "$DEV" ]; then export PROCESS_VAR='[a-z]'; else export PROCESS_VAR='
         "&& sed -i \"s/${PROCESS_VAR}.env.LOADER/\\\"\$LOADER\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.PINATA_API_KEY/\\\"\$PINATA_API_KEY\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.PINATA_API_SECRET/\\\"\$PINATA_API_SECRET\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.NETWORK_CONTRACT_ADDRESS/\\\"\$NETWORK_CONTRACT_ADDRESS\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.NETWORK/\\\"\$NETWORK\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.VERBOSE/\\\"\$VERBOSE\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.COLONY_NETWORK_ENS_NAME/\\\"\$COLONY_NETWORK_ENS_NAME\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.FEEDBACK_FISH_PROJECT_ID/\\\"\$FEEDBACK_FISH_PROJECT_ID\\\"/g\" *.js" \
-        "&& sed -i \"s/${PROCESS_VAR}.env.NETWORK_CONTRACT_ADDRESS/\\\"\$NETWORK_CONTRACT_ADDRESS\\\"/g\" *.js" \
         " && nginx -g 'daemon off;'" > ./run.sh
 RUN chmod +x ./run.sh
 
