@@ -83,7 +83,6 @@ RUN if [ -z "$DEV" ]; then export PROCESS_VAR='[a-z]'; else export PROCESS_VAR='
         "&& sed -i \"s/${PROCESS_VAR}.env.VERBOSE/\\\"\$VERBOSE\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.COLONY_NETWORK_ENS_NAME/\\\"\$COLONY_NETWORK_ENS_NAME\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
-        "&& sed -i \"s/${PROCESS_VAR}.env.FEEDBACK_FISH_PROJECT_ID/\\\"\$FEEDBACK_FISH_PROJECT_ID\\\"/g\" *.js" \
         "&& sed -i \"s|${PROCESS_VAR}.env.RPC_URL|\\\"\$RPC_URL\\\"|g\" *.js" \
         " && nginx -g 'daemon off;'" > ./run.sh
 RUN chmod +x ./run.sh
