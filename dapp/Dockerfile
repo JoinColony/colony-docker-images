@@ -1,4 +1,4 @@
-FROM node:12.16.3
+FROM node:14.18.0
 
 # @NOTE This Dockerfile pulls in a private repository
 # In order to accomplish this, it makes use of a GH Personal Access Token:
@@ -32,6 +32,9 @@ RUN apt-get install -y \
 # Reconfigure locales
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN locale-gen
+
+# Install new version of NPM
+RUN npm i -g npm@8 --registry=https://registry.npmjs.org
 
 # Clone the repo
 RUN git clone "https://$GH_PAT@github.com/JoinColony/colonyDapp.git"
