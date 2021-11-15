@@ -77,7 +77,7 @@ EXPOSE 80
 RUN if [ -z "$DEV" ]; then export PROCESS_VAR='[a-z]'; else export PROCESS_VAR='process'; fi && \
         echo "sed -i \"s|${PROCESS_VAR}.env.SERVER_ENDPOINT|\\\"\$SERVER_ENDPOINT\\\"|g\" *.js" \
         "&& sed -i \"s|${PROCESS_VAR}.env.SUBGRAPH_ENDPOINT|\\\"\$SUBGRAPH_ENDPOINT\\\"|g\" *.js" \
-        echo "sed -i \"s|${PROCESS_VAR}.env.KYC_ORACLE_ENDPOINT|\\\"\$KYC_ORACLE_ENDPOINT\\\"|g\" *.js" \
+        "&& sed -i \"s|${PROCESS_VAR}.env.KYC_ORACLE_ENDPOINT|\\\"\$KYC_ORACLE_ENDPOINT\\\"|g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.LOADER/\\\"\$LOADER\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.PINATA_API_KEY/\\\"\$PINATA_API_KEY\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.PINATA_API_SECRET/\\\"\$PINATA_API_SECRET\\\"/g\" *.js" \
