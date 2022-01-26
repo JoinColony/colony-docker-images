@@ -85,6 +85,8 @@ RUN if [ -z "$DEV" ]; then export PROCESS_VAR='[a-z]'; else export PROCESS_VAR='
         "&& sed -i \"s/${PROCESS_VAR}.env.NETWORK/\\\"\$NETWORK\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.VERBOSE/\\\"\$VERBOSE\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.COLONY_NETWORK_ENS_NAME/\\\"\$COLONY_NETWORK_ENS_NAME\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.META_WRAPPED_TOKEN_ADDRESS/\\\"\$META_WRAPPED_TOKEN_ADDRESS\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.META_VESTING_CONTRACT_ADDRESS/\\\"\$META_VESTING_CONTRACT_ADDRESS\\\"/g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
         "&& sed -i \"s|${PROCESS_VAR}.env.RPC_URL|\\\"\$RPC_URL\\\"|g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.USERFLOW_TOKEN/\\\"\$USERFLOW_TOKEN\\\"/g\" *.js" \
