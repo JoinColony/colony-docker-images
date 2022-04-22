@@ -34,7 +34,7 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN locale-gen
 
 # Install new version of NPM
-RUN npm i -g npm@8 --registry=https://registry.npmjs.org
+RUN npm i -g npm@8.2 --registry=https://registry.npmjs.org
 
 # Clone the repo
 RUN git clone "https://$GH_PAT@github.com/JoinColony/colonyDapp.git"
