@@ -90,6 +90,7 @@ RUN if [ -z "$DEV" ]; then export PROCESS_VAR='[a-z]'; else export PROCESS_VAR='
         "&& sed -i \"s/${PROCESS_VAR}.env.INFURA_ID/\\\"\$INFURA_ID\\\"/g\" *.js" \
         "&& sed -i \"s|${PROCESS_VAR}.env.RPC_URL|\\\"\$RPC_URL\\\"|g\" *.js" \
         "&& sed -i \"s/${PROCESS_VAR}.env.USERFLOW_TOKEN/\\\"\$USERFLOW_TOKEN\\\"/g\" *.js" \
+        "&& sed -i \"s/${PROCESS_VAR}.env.METATRANSACTIONS/\\\"\$METATRANSACTIONS\\\"/g\" *.js" \
         " && nginx -g 'daemon off;'" > ./run.sh
 RUN chmod +x ./run.sh
 
