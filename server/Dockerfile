@@ -45,7 +45,7 @@ WORKDIR /colonyServer
 RUN if [ ! -z "$COMMIT_HASH" ]; then git checkout $COMMIT_HASH; fi
 
 # Setup the server modules
-RUN npm i
+RUN npm i --force
 
 # Build the server files
 RUN npm run build
